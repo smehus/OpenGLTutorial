@@ -40,6 +40,7 @@ class ViewController: GLKViewController {
     
     var shader: BaseEffect!
     var square: Square!
+    var cube: Cube!
     
     
     override func viewDidLoad() {
@@ -47,7 +48,7 @@ class ViewController: GLKViewController {
         
         glkView.context = EAGLContext(api: EAGLRenderingAPI.openGLES2)
         
-        
+        glkView.drawableDepthFormat = .format16
         EAGLContext.setCurrent(glkView.context)
         
         setupScene()
@@ -56,18 +57,24 @@ class ViewController: GLKViewController {
     func setupScene() {
         shader = BaseEffect(vertexShader: "SimpleVertexShader.glsl", fragmentShader: "SimpleFragmentShader.glsl")
         square = Square(shader: shader)
-        square.position = GLKVector3Make(0.5, -0.5, 0)
+        cube = Cube(shader: shader)
+        shader.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(85), Float(view.bounds.size.width / view.bounds.size.height), 1, 150)
     }
 
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         glClearColor(1.0, 0, 0, 1.0)
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT))
+        glEnable(GLenum(GL_DEPTH_TEST))
+        glEnable(GLenum(GL_CULL_FACE))
     
-        square.render()
+        let viewMatrix = GLKMatrix4MakeTranslation(0, -1, -5)
+//        square.render(with: viewMatrix)
+        cube.render(with: viewMatrix)
     }
     
     func update() {
-        square.update(with: timeSinceLastUpdate)
+//        square.update(with: timeSinceLastUpdate)
+           cube.update(with: timeSinceLastUpdate)
     }
 }
 

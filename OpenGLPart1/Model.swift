@@ -87,8 +87,11 @@ class Model {
         position = GLKVector3Make(sinf(Float(CACurrentMediaTime() * 2 * Double.pi / secsPerMove)), position.y, position.z)
     }
     
-    func render() {
-        shader.modelViewMatrix = modelMatrix()
+    func render(with parentModelViewMatrix: GLKMatrix4) {
+        
+        let newMatrix = GLKMatrix4Multiply(parentModelViewMatrix, modelMatrix())
+        
+        shader.modelViewMatrix = newMatrix
         shader.prepareToDraw()
         
         glBindVertexArrayOES(vao)

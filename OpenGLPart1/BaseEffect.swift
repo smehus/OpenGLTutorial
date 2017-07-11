@@ -12,8 +12,12 @@ import GLKit
 class BaseEffect {
     
     var modelViewMatrix: GLKMatrix4!
+    var projectionMatrix: GLKMatrix4!
+    
     fileprivate var programHandle : GLuint = 0
     fileprivate var modelViewMatrixUniform: Int32!
+    fileprivate var projectionMatrixUniform: Int32!
+    
     
     init(vertexShader: String, fragmentShader: String) {
         self.compile(vertexShader: vertexShader, fragmentShader: fragmentShader)
@@ -24,6 +28,12 @@ class BaseEffect {
         withUnsafePointer(to: &modelViewMatrix.m) {
             $0.withMemoryRebound(to: GLfloat.self, capacity: MemoryLayout.size(ofValue: modelViewMatrix.m)) {
                     glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(false)  , $0)
+            }
+        }
+        
+        withUnsafePointer(to: &projectionMatrix.m) {
+            $0.withMemoryRebound(to: GLfloat.self, capacity: MemoryLayout.size(ofValue: projectionMatrix.m)) {
+                glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(false)  , $0)
             }
         }
     }
@@ -88,7 +98,7 @@ extension BaseEffect {
         
         modelViewMatrix = GLKMatrix4Identity
         modelViewMatrixUniform = glGetUniformLocation(programHandle, "u_modelViewMatrix")
-        
+        projectionMatrixUniform = glGetUniformLocation(programHandle, "u_projectionMatrix")
         
         // Eror handling
         var linkStatus : GLint = 0
