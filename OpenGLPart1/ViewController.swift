@@ -46,6 +46,8 @@ class ViewController: GLKViewController {
         super.viewDidLoad()
         
         glkView.context = EAGLContext(api: EAGLRenderingAPI.openGLES2)
+        
+        
         EAGLContext.setCurrent(glkView.context)
         
         setupScene()
@@ -54,6 +56,7 @@ class ViewController: GLKViewController {
     func setupScene() {
         shader = BaseEffect(vertexShader: "SimpleVertexShader.glsl", fragmentShader: "SimpleFragmentShader.glsl")
         square = Square(shader: shader)
+        square.position = GLKVector3Make(0.5, -0.5, 0)
     }
 
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
@@ -62,10 +65,9 @@ class ViewController: GLKViewController {
     
         square.render()
     }
-}
-
-extension ViewController: GLKViewControllerDelegate {
-    func glkViewControllerUpdate(_ controller: GLKViewController) {
-        
+    
+    func update() {
+        square.update(with: timeSinceLastUpdate)
     }
 }
+

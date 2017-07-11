@@ -22,6 +22,11 @@ class Model {
     var vertexBuffer: GLuint = 0
     var indexBuffer: GLuint = 0
     
+    var position = GLKVector3Make(0, 0, 0)
+    var rotationX: GLfloat = 0
+    var rotationY: GLfloat = 0
+    var rotationZ: GLfloat = 0
+    var scale: GLfloat = 1.0
     
     
     init(name: String, shader: BaseEffect, vertices: [Vertex], indices: [GLubyte]) {
@@ -31,6 +36,7 @@ class Model {
         self.vertextCount = GLuint(vertices.count)
         self.indices = indices
         self.indexCount = GLuint(indices.count)
+        
         
         
         glGenVertexArraysOES(1, &vao)
@@ -48,7 +54,7 @@ class Model {
         glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), indices.count * MemoryLayout<GLubyte>.size, indices, GLenum(GL_STATIC_DRAW))
         
         
-        // Enable vertex attributes
+        // Enable vertex attributes - maps the vertrex attribute index to the property -basically assigning the property here
         glEnableVertexAttribArray(VertexAttributes.position.rawValue)
         glVertexAttribPointer(VertexAttributes.position.rawValue, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(MemoryLayout<Vertex>.size), BUFFER_OFFSET(0))
         
@@ -61,7 +67,28 @@ class Model {
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
     }
     
+    
+    
+    /// Matrix multiplication - to get the final positions
+    func modelMatrix() -> GLKMatrix4 {
+        var modelMatrix = GLKMatrix4Identity
+        modelMatrix = GLKMatrix4Translate(modelMatrix, position.x, position.y, position.y)
+        modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationX, 1, 0, 0)
+        modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationY, 0, 1, 0)
+        modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationZ, 0, 0, 1)
+        modelMatrix = GLKMatrix4Scale(modelMatrix, scale, scale, scale)
+        
+        return modelMatrix
+    }
+    
+    // sinf is the key here
+    func update(with delta: Double) {
+        let secsPerMove: Double = 2
+        position = GLKVector3Make(sinf(Float(CACurrentMediaTime() * 2 * Double.pi / secsPerMove)), position.y, position.z)
+    }
+    
     func render() {
+        shader.modelViewMatrix = modelMatrix()
         shader.prepareToDraw()
         
         glBindVertexArrayOES(vao)
