@@ -13,10 +13,13 @@ class BaseEffect {
     
     var modelViewMatrix: GLKMatrix4!
     var projectionMatrix: GLKMatrix4!
+    var texture: GLuint!
     
     fileprivate var programHandle : GLuint = 0
     fileprivate var modelViewMatrixUniform: Int32!
     fileprivate var projectionMatrixUniform: Int32!
+    fileprivate var texUniform: Int32!
+    
     
     
     init(vertexShader: String, fragmentShader: String) {
@@ -36,6 +39,10 @@ class BaseEffect {
                 glUniformMatrix4fv(projectionMatrixUniform, 1, GLboolean(false)  , $0)
             }
         }
+        
+        glActiveTexture(GLenum(GL_TEXTURE1))
+        glBindTexture(GLenum(GL_TEXTURE_2D), texture)
+        glUniform1i(texUniform, 1)
     }
 }
 
@@ -92,6 +99,7 @@ extension BaseEffect {
         
         glBindAttribLocation(self.programHandle, VertexAttributes.position.rawValue, "a_Position")
         glBindAttribLocation(self.programHandle, VertexAttributes.color.rawValue, "a_Color")
+        glBindAttribLocation(programHandle, VertexAttributes.texCoord.rawValue, "a_TexCoord")
         
         
         glLinkProgram(self.programHandle)
@@ -99,6 +107,7 @@ extension BaseEffect {
         modelViewMatrix = GLKMatrix4Identity
         modelViewMatrixUniform = glGetUniformLocation(programHandle, "u_modelViewMatrix")
         projectionMatrixUniform = glGetUniformLocation(programHandle, "u_projectionMatrix")
+        texUniform = glGetUniformLocation(programHandle, "u_Texture")
         
         // Eror handling
         var linkStatus : GLint = 0

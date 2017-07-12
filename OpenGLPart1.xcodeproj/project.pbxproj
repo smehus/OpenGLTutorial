@@ -17,6 +17,8 @@
 		A54094B21F130C4500AB4D05 /* SimpleFragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = A54094B11F130C4500AB4D05 /* SimpleFragmentShader.glsl */; };
 		A54094B41F14550900AB4D05 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54094B31F14550900AB4D05 /* Model.swift */; };
 		A54094B61F14570800AB4D05 /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54094B51F14570800AB4D05 /* Square.swift */; };
+		A54094B91F1598D900AB4D05 /* dungeon_01.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094B71F1598D900AB4D05 /* dungeon_01.png */; };
+		A54094BA1F1598D900AB4D05 /* razewarelogo_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094B81F1598D900AB4D05 /* razewarelogo_128.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		A54094B11F130C4500AB4D05 /* SimpleFragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragmentShader.glsl; sourceTree = "<group>"; };
 		A54094B31F14550900AB4D05 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A54094B51F14570800AB4D05 /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
+		A54094B71F1598D900AB4D05 /* dungeon_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeon_01.png; sourceTree = "<group>"; };
+		A54094B81F1598D900AB4D05 /* razewarelogo_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = razewarelogo_128.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 		A540947C1F13027E00AB4D05 /* OpenGLPart1 */ = {
 			isa = PBXGroup;
 			children = (
+				A54094B71F1598D900AB4D05 /* dungeon_01.png */,
+				A54094B81F1598D900AB4D05 /* razewarelogo_128.png */,
 				A540947D1F13027E00AB4D05 /* AppDelegate.swift */,
 				A540947F1F13027E00AB4D05 /* ViewController.swift */,
 				A54094811F13027E00AB4D05 /* Main.storyboard */,
@@ -143,7 +149,9 @@
 				A54094851F13027E00AB4D05 /* Assets.xcassets in Resources */,
 				A54094B01F130C1000AB4D05 /* SimpleVertexShader.glsl in Resources */,
 				A54094B21F130C4500AB4D05 /* SimpleFragmentShader.glsl in Resources */,
+				A54094BA1F1598D900AB4D05 /* razewarelogo_128.png in Resources */,
 				A54094831F13027E00AB4D05 /* Main.storyboard in Resources */,
+				A54094B91F1598D900AB4D05 /* dungeon_01.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

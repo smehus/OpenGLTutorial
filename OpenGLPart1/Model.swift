@@ -26,8 +26,10 @@ class Model {
     var rotationX: GLfloat = 0
     var rotationY: GLfloat = 0
     var rotationZ: GLfloat = 0
-    var scale: GLfloat = 1.0
+    var scale: (x: GLfloat, y: GLfloat, z: GLfloat) = (1, 1, 1)
+    var velocity: GLKVector3!
     
+    var texture: GLuint!
     
     init(name: String, shader: BaseEffect, vertices: [Vertex], indices: [GLubyte]) {
         self.name = name
@@ -62,12 +64,24 @@ class Model {
         glEnableVertexAttribArray(VertexAttributes.color.rawValue)
         glVertexAttribPointer(VertexAttributes.color.rawValue, 4, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(MemoryLayout<Vertex>.size), BUFFER_OFFSET(3 * MemoryLayout<GLfloat>.size))
         
+        glEnableVertexAttribArray(VertexAttributes.texCoord.rawValue)
+        glVertexAttribPointer(VertexAttributes.texCoord.rawValue, 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(MemoryLayout<Vertex>.size), BUFFER_OFFSET(7 * MemoryLayout<GLfloat>.size))
+        
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), 0)
     }
     
-    
+    func loadTexture(_ filename: String) {
+        let path = Bundle.main.path(forResource: filename, ofType: nil)!
+        
+        let options = [ GLKTextureLoaderOriginBottomLeft : NSNumber(value: true) ]
+        do {
+            let info = try GLKTextureLoader.texture(withContentsOfFile: path, options: options)
+            self.texture = info.name
+        } catch { }
+        
+    }
     
     /// Matrix multiplication - to get the final positions
     func modelMatrix() -> GLKMatrix4 {
@@ -76,7 +90,7 @@ class Model {
         modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationX, 1, 0, 0)
         modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationY, 0, 1, 0)
         modelMatrix = GLKMatrix4Rotate(modelMatrix, rotationZ, 0, 0, 1)
-        modelMatrix = GLKMatrix4Scale(modelMatrix, scale, scale, scale)
+        modelMatrix = GLKMatrix4Scale(modelMatrix, scale.x, scale.y, scale.z)
         
         return modelMatrix
     }
@@ -92,6 +106,7 @@ class Model {
         let newMatrix = GLKMatrix4Multiply(parentModelViewMatrix, modelMatrix())
         
         shader.modelViewMatrix = newMatrix
+        shader.texture = texture
         shader.prepareToDraw()
         
         glBindVertexArrayOES(vao)

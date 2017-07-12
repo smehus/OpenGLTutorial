@@ -12,25 +12,40 @@ import GLKit
 
 
 /// This is used as an index for the shaders in the buffers - not the index of the vertex info
-///
-/// - position: <#position description#>
-/// - color: <#color description#>
 enum VertexAttributes: GLuint {
     case position = 0
     case color = 1
+    case texCoord
 }
 
 struct Vertex {
-    let position: (x: GLfloat, y: GLfloat, z: GLfloat)
-    let color: (r: GLfloat, g: GLfloat, b: GLfloat, a: GLfloat)
+    var x : GLfloat = 0.0
+    var y : GLfloat = 0.0
+    var z : GLfloat = 0.0
+    
+    var r : GLfloat = 0.0
+    var g : GLfloat = 0.0
+    var b : GLfloat = 0.0
+    var a : GLfloat = 1.0
+    
+    var u : GLfloat = 0.0
+    var v : GLfloat = 0.0
     
     
-    init(_ pos: (x: GLfloat, y: GLfloat, z: GLfloat), color: (r: GLfloat, g: GLfloat, b: GLfloat, a: GLfloat)) {
-        position = pos
-        self.color = color
+    init(_ x : GLfloat, _ y : GLfloat, _ z : GLfloat, _ r : GLfloat = 0.0, _ g : GLfloat = 0.0, _ b : GLfloat = 0.0, _ a : GLfloat = 1.0, _ u : GLfloat = 0.0, _ v : GLfloat = 0.0) {
+        self.x = x
+        self.y = y
+        self.z = z
+        
+        self.r = r
+        self.g = g
+        self.b = b
+        self.a = a
+        
+        self.u = u
+        self.v = v
     }
 }
-
 class ViewController: GLKViewController {
 
     var glkView: GLKView {
@@ -39,9 +54,9 @@ class ViewController: GLKViewController {
     
     
     var shader: BaseEffect!
-    var square: Square!
+//    var square: Square!
     var cube: Cube!
-    
+//    var cone: Cone!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,25 +71,32 @@ class ViewController: GLKViewController {
     
     func setupScene() {
         shader = BaseEffect(vertexShader: "SimpleVertexShader.glsl", fragmentShader: "SimpleFragmentShader.glsl")
-        square = Square(shader: shader)
+//        square = Square(shader: shader)
         cube = Cube(shader: shader)
+//        cone = Cone(shader: shader)
         shader.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(85), Float(view.bounds.size.width / view.bounds.size.height), 1, 150)
     }
 
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
-        glClearColor(1.0, 0, 0, 1.0)
+        glClearColor(0, 0, 0, 1.0)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT))
         glEnable(GLenum(GL_DEPTH_TEST))
         glEnable(GLenum(GL_CULL_FACE))
+        glEnable(GLenum(GL_BLEND))
+        glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
     
-        let viewMatrix = GLKMatrix4MakeTranslation(0, -1, -5)
+        var viewMatrix = GLKMatrix4MakeTranslation(0, 0, -5)
+        viewMatrix = GLKMatrix4Rotate(viewMatrix, GLKMathDegreesToRadians(45), 1, 0, 0)
+        
 //        square.render(with: viewMatrix)
         cube.render(with: viewMatrix)
+//        cone.render(with: viewMatrix)
     }
     
     func update() {
 //        square.update(with: timeSinceLastUpdate)
            cube.update(with: timeSinceLastUpdate)
+//        cone.update(with: timeSinceLastUpdate)
     }
 }
 
