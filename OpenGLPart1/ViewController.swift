@@ -16,6 +16,7 @@ enum VertexAttributes: GLuint {
     case position = 0
     case color = 1
     case texCoord
+    case normal
 }
 
 struct Vertex {
@@ -31,8 +32,11 @@ struct Vertex {
     var u : GLfloat = 0.0
     var v : GLfloat = 0.0
     
+    var n1: GLfloat = 0
+    var n2: GLfloat = 0
+    var n3: GLfloat = 0
     
-    init(_ x : GLfloat, _ y : GLfloat, _ z : GLfloat, _ r : GLfloat = 0.0, _ g : GLfloat = 0.0, _ b : GLfloat = 0.0, _ a : GLfloat = 1.0, _ u : GLfloat = 0.0, _ v : GLfloat = 0.0) {
+    init(_ x : GLfloat, _ y : GLfloat, _ z : GLfloat, _ r : GLfloat = 0.0, _ g : GLfloat = 0.0, _ b : GLfloat = 0.0, _ a : GLfloat = 1.0, _ u : GLfloat = 0.0, _ v : GLfloat = 0.0, _ n1: GLfloat, _ n2: GLfloat, _ n3: GLfloat) {
         self.x = x
         self.y = y
         self.z = z
@@ -44,6 +48,10 @@ struct Vertex {
         
         self.u = u
         self.v = v
+        
+        self.n1 = n1
+        self.n2 = n2
+        self.n3 = n3
     }
 }
 class ViewController: GLKViewController {
@@ -56,6 +64,7 @@ class ViewController: GLKViewController {
     var shader: BaseEffect!
 //    var square: Square!
     var cube: Cube!
+    var terrain: Terrain!
 //    var cone: Cone!
     
     override func viewDidLoad() {
@@ -74,11 +83,12 @@ class ViewController: GLKViewController {
 //        square = Square(shader: shader)
         cube = Cube(shader: shader)
 //        cone = Cone(shader: shader)
+//        terrain = Terrain(shader: shader)
         shader.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(85), Float(view.bounds.size.width / view.bounds.size.height), 1, 150)
     }
 
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
-        glClearColor(0, 0, 0, 1.0)
+        glClearColor(0, 0.4, 0.21, 1.0)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT))
         glEnable(GLenum(GL_DEPTH_TEST))
         glEnable(GLenum(GL_CULL_FACE))
@@ -86,10 +96,11 @@ class ViewController: GLKViewController {
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
     
         var viewMatrix = GLKMatrix4MakeTranslation(0, 0, -5)
-        viewMatrix = GLKMatrix4Rotate(viewMatrix, GLKMathDegreesToRadians(45), 1, 0, 0)
+        viewMatrix = GLKMatrix4Rotate(viewMatrix, GLKMathDegreesToRadians(30), 1, 0, 0)
         
 //        square.render(with: viewMatrix)
         cube.render(with: viewMatrix)
+//        terrain.render(with: viewMatrix)
 //        cone.render(with: viewMatrix)
     }
     

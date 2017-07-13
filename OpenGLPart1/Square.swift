@@ -33,45 +33,87 @@ class Square: Model {
 }
  */
 
+
+extension CGFloat {
+    public static func random() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    public static func random(min: CGFloat, max: CGFloat) -> CGFloat {
+        assert(min < max)
+        return CGFloat.random() * (max - min) + min
+    }
+}
+
+class Terrain: Model {
+    
+   static var squareVertices: [Vertex] {
+        
+        var array: [Vertex] = []
+        var x: GLfloat = -1
+        for i in 0...10 {
+            x = x + GLfloat(0.1)
+            let y = CGFloat.random(min: 0, max: 2)
+                array.append(Vertex(x, GLfloat(y), 1,  0, 0, 0, 1,  0, 0, 0, 0, 1))
+            
+        }
+    
+        return array
+    
+    }
+    
+    let squareIndices : [GLubyte] = [
+        // Front
+        0, 1, 2,
+        2, 3, 0,
+    ]
+    
+    
+    init(shader: BaseEffect) {
+        super.init(name: "terrain", shader: shader, vertices: Terrain.squareVertices, indices: squareIndices, type: GLenum(GL_TRIANGLE_STRIP))
+        self.loadTexture("dungeon_01.png")
+    }
+}
+
 class Cube: Model {
     
     let squareVertices : [Vertex] = [
         
         // Front
-        Vertex( 1, -1, 1,  1, 0, 0, 1,  1, 0), // 0
-        Vertex( 1,  1, 1,  0, 1, 0, 1,  1, 1), // 1
-        Vertex(-1,  1, 1,  0, 0, 1, 1,  0, 1), // 2
-        Vertex(-1, -1, 1,  0, 0, 0, 1,  0, 0), // 3
+        Vertex( 1, -1,   1,  1, 0, 0,   1,  1, 0,   0, 0 , 1), // 0
+        Vertex( 1,  1, 1,  0, 1, 0, 1,  1, 1, 0, 0, 1), // 1
+        Vertex(-1,  1, 1,  0, 0, 1, 1,  0, 1, 0, 0, 1), // 2
+        Vertex(-1, -1, 1,  0, 0, 0, 1,  0, 0, 0, 0, 1), // 3
         
         // Back
-        Vertex(-1, -1, -1, 0, 0, 1, 1,  1, 0), // 4
-        Vertex(-1,  1, -1, 0, 1, 0, 1,  1, 1), // 5
-        Vertex( 1,  1, -1, 1, 0, 0, 1,  0, 1), // 6
-        Vertex( 1, -1, -1, 0, 0, 0, 1,  0, 0), // 7
+        Vertex(-1, -1, -1, 0, 0, 1, 1,  1, 0, 0, 0, -1), // 4
+        Vertex(-1,  1, -1, 0, 1, 0, 1,  1, 1, 0, 0, -1), // 5
+        Vertex( 1,  1, -1, 1, 0, 0, 1,  0, 1, 0, 0, -1), // 6
+        Vertex( 1, -1, -1, 0, 0, 0, 1,  0, 0, 0, 0, -1), // 7
         
         // Left
-        Vertex(-1, -1,  1, 1, 0, 0, 1,  1, 0), // 8
-        Vertex(-1,  1,  1, 0, 1, 0, 1,  1, 1), // 9
-        Vertex(-1,  1, -1, 0, 0, 1, 1,  0, 1), // 10
-        Vertex(-1, -1, -1, 0, 0, 0, 1,  0, 0), // 11
+        Vertex(-1, -1,  1, 1, 0, 0, 1,  1, 0, -1, 0, 0), // 8
+        Vertex(-1,  1,  1, 0, 1, 0, 1,  1, 1, -1, 0, 0), // 9
+        Vertex(-1,  1, -1, 0, 0, 1, 1,  0, 1, -1, 0, 0), // 10
+        Vertex(-1, -1, -1, 0, 0, 0, 1,  0, 0, -1, 0, 0), // 11
         
         // Right
-        Vertex( 1, -1, -1, 1, 0, 0, 1,  1, 0), // 12
-        Vertex( 1,  1, -1, 0, 1, 0, 1,  1, 1), // 13
-        Vertex( 1,  1,  1, 0, 0, 1, 1,  0, 1), // 14
-        Vertex( 1, -1,  1, 0, 0, 0, 1,  0, 0), // 15
+        Vertex( 1, -1, -1, 1, 0, 0, 1,  1, 0, 1, 0, 0), // 12
+        Vertex( 1,  1, -1, 0, 1, 0, 1,  1, 1, 1, 0, 0), // 13
+        Vertex( 1,  1,  1, 0, 0, 1, 1,  0, 1, 1, 0, 0), // 14
+        Vertex( 1, -1,  1, 0, 0, 0, 1,  0, 0, 1, 0, 0), // 15
         
         // Top
-        Vertex( 1,  1,  1, 1, 0, 0, 1,  1, 0), // 16
-        Vertex( 1,  1, -1, 0, 1, 0, 1,  1, 1), // 17
-        Vertex(-1,  1, -1, 0, 0, 1, 1,  0, 1), // 18
-        Vertex(-1,  1,  1, 0, 0, 0, 1,  0, 0), // 19
+        Vertex( 1,  1,  1, 1, 0, 0, 1,  1, 0, 0, 1, 0), // 16
+        Vertex( 1,  1, -1, 0, 1, 0, 1,  1, 1, 0, 1, 0), // 17
+        Vertex(-1,  1, -1, 0, 0, 1, 1,  0, 1, 0, 1, 0), // 18
+        Vertex(-1,  1,  1, 0, 0, 0, 1,  0, 0, 0, 1, 0), // 19
         
         // Bottom
-        Vertex( 1, -1, -1, 1, 0, 0, 1,  1, 0), // 20
-        Vertex( 1, -1,  1, 0, 1, 0, 1,  1, 1), // 21
-        Vertex(-1, -1,  1, 0, 0, 1, 1,  0, 1), // 22
-        Vertex(-1, -1, -1, 0, 0, 0, 1,  0, 0), // 23
+        Vertex( 1, -1, -1, 1, 0, 0, 1,  1, 0, 0, -1, 0), // 20
+        Vertex( 1, -1,  1, 0, 1, 0, 1,  1, 1, 0, -1, 0), // 21
+        Vertex(-1, -1,  1, 0, 0, 1, 1,  0, 1, 0, -1, 0), // 22
+        Vertex(-1, -1, -1, 0, 0, 0, 1,  0, 0, 0, -1, 0), // 23
         ]
     
     let squareIndices : [GLubyte] = [
@@ -103,12 +145,11 @@ class Cube: Model {
     
     init(shader: BaseEffect) {
         super.init(name: "cube", shader: shader, vertices: squareVertices, indices: squareIndices)
-        self.loadTexture("razewarelogo_128.png")
+        self.loadTexture("dungeon_01.png")
     }
     
     override func update(with delta: Double) {
-        rotationZ += Float(Double.pi * delta)
-        rotationY += Float(Double.pi * delta)
+        rotationY += Float(Double.pi/8 * delta)
     }
 }
 

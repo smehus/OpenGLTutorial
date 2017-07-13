@@ -9,6 +9,8 @@
 import Foundation
 import GLKit
 
+
+
 class Model {
     
     var shader: BaseEffect!
@@ -30,15 +32,16 @@ class Model {
     var velocity: GLKVector3!
     
     var texture: GLuint!
+    var type = GLenum(GL_TRIANGLES)
     
-    init(name: String, shader: BaseEffect, vertices: [Vertex], indices: [GLubyte]) {
+    init(name: String, shader: BaseEffect, vertices: [Vertex], indices: [GLubyte], type: GLenum =  GLenum(GL_TRIANGLES)) {
         self.name = name
         self.shader = shader
         self.vertices = vertices
         self.vertextCount = GLuint(vertices.count)
         self.indices = indices
         self.indexCount = GLuint(indices.count)
-        
+        self.type = type
         
         
         glGenVertexArraysOES(1, &vao)
@@ -66,6 +69,9 @@ class Model {
         
         glEnableVertexAttribArray(VertexAttributes.texCoord.rawValue)
         glVertexAttribPointer(VertexAttributes.texCoord.rawValue, 2, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(MemoryLayout<Vertex>.size), BUFFER_OFFSET(7 * MemoryLayout<GLfloat>.size))
+        
+        glEnableVertexAttribArray(VertexAttributes.normal.rawValue)
+        glVertexAttribPointer(VertexAttributes.normal.rawValue, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(MemoryLayout<Vertex>.size), BUFFER_OFFSET(9 * MemoryLayout<GLfloat>.size))
         
         glBindVertexArrayOES(0)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
@@ -111,7 +117,7 @@ class Model {
         
         glBindVertexArrayOES(vao)
 //        glDrawArrays(GLenum(GL_LINE_STRIP), 0, 10) - Challenge
-        glDrawElements(GLenum(GL_TRIANGLES), GLsizei(indices.count), GLenum(GL_UNSIGNED_BYTE), nil)
+        glDrawElements(type, GLsizei(indices.count), GLenum(GL_UNSIGNED_BYTE), nil)
         glBindVertexArrayOES(0)
     }
     

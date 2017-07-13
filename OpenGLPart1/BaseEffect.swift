@@ -19,8 +19,10 @@ class BaseEffect {
     fileprivate var modelViewMatrixUniform: Int32!
     fileprivate var projectionMatrixUniform: Int32!
     fileprivate var texUniform: Int32!
-    
-    
+    fileprivate var lightColorUniform: Int32!
+    fileprivate var lightAmbientIntensityUniform: Int32!
+    fileprivate var lightDiffuseIntensityUniform: Int32!
+    fileprivate var lightDirectionUniform: Int32!
     
     init(vertexShader: String, fragmentShader: String) {
         self.compile(vertexShader: vertexShader, fragmentShader: fragmentShader)
@@ -28,6 +30,8 @@ class BaseEffect {
     
     func prepareToDraw() {
         glUseProgram(self.programHandle)
+        
+        // Do this because we're attempting to set swift tuples to c style arrays
         withUnsafePointer(to: &modelViewMatrix.m) {
             $0.withMemoryRebound(to: GLfloat.self, capacity: MemoryLayout.size(ofValue: modelViewMatrix.m)) {
                     glUniformMatrix4fv(modelViewMatrixUniform, 1, GLboolean(false)  , $0)
@@ -40,9 +44,17 @@ class BaseEffect {
             }
         }
         
+        // These are set normally because they aren't swift tuples
         glActiveTexture(GLenum(GL_TEXTURE1))
         glBindTexture(GLenum(GL_TEXTURE_2D), texture)
         glUniform1i(texUniform, 1)
+        
+        glUniform3f(lightColorUniform, 1, 1, 1)
+        glUniform1f(lightAmbientIntensityUniform, 0.1)
+        
+        let lightDirecton = GLKVector3Normalize(GLKVector3Make(0, 1, -1))
+        glUniform3f(lightDirectionUniform, lightDirecton.x, lightDirecton.y, lightDirecton.z)
+        glUniform1f(lightDiffuseIntensityUniform, 0.7)
     }
 }
 
@@ -100,7 +112,7 @@ extension BaseEffect {
         glBindAttribLocation(self.programHandle, VertexAttributes.position.rawValue, "a_Position")
         glBindAttribLocation(self.programHandle, VertexAttributes.color.rawValue, "a_Color")
         glBindAttribLocation(programHandle, VertexAttributes.texCoord.rawValue, "a_TexCoord")
-        
+        glBindAttribLocation(programHandle, VertexAttributes.normal.rawValue, "a_Normal")
         
         glLinkProgram(self.programHandle)
         
@@ -108,6 +120,11 @@ extension BaseEffect {
         modelViewMatrixUniform = glGetUniformLocation(programHandle, "u_modelViewMatrix")
         projectionMatrixUniform = glGetUniformLocation(programHandle, "u_projectionMatrix")
         texUniform = glGetUniformLocation(programHandle, "u_Texture")
+        lightColorUniform = glGetUniformLocation(programHandle, "u_Light.Color")
+        lightAmbientIntensityUniform = glGetUniformLocation(programHandle, "u_Light.AmbientIntensity")
+        
+        lightDiffuseIntensityUniform = glGetUniformLocation(programHandle, "u_Light.DiffuseIntensity")
+        lightDirectionUniform = glGetUniformLocation(programHandle, "u_Light.Direction")
         
         // Eror handling
         var linkStatus : GLint = 0

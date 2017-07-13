@@ -19,6 +19,10 @@
 		A54094B61F14570800AB4D05 /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54094B51F14570800AB4D05 /* Square.swift */; };
 		A54094B91F1598D900AB4D05 /* dungeon_01.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094B71F1598D900AB4D05 /* dungeon_01.png */; };
 		A54094BA1F1598D900AB4D05 /* razewarelogo_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094B81F1598D900AB4D05 /* razewarelogo_128.png */; };
+		A54094BF1F15A2FA00AB4D05 /* dice.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094BB1F15A2FA00AB4D05 /* dice.png */; };
+		A54094C01F15A2FA00AB4D05 /* picture-frame-mask.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094BC1F15A2FA00AB4D05 /* picture-frame-mask.png */; };
+		A54094C11F15A2FA00AB4D05 /* picture-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094BD1F15A2FA00AB4D05 /* picture-frame.png */; };
+		A54094C21F15A2FA00AB4D05 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = A54094BE1F15A2FA00AB4D05 /* picture.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,10 @@
 		A54094B51F14570800AB4D05 /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
 		A54094B71F1598D900AB4D05 /* dungeon_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeon_01.png; sourceTree = "<group>"; };
 		A54094B81F1598D900AB4D05 /* razewarelogo_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = razewarelogo_128.png; sourceTree = "<group>"; };
+		A54094BB1F15A2FA00AB4D05 /* dice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice.png; sourceTree = "<group>"; };
+		A54094BC1F15A2FA00AB4D05 /* picture-frame-mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "picture-frame-mask.png"; sourceTree = "<group>"; };
+		A54094BD1F15A2FA00AB4D05 /* picture-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "picture-frame.png"; sourceTree = "<group>"; };
+		A54094BE1F15A2FA00AB4D05 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,10 @@
 		A540947C1F13027E00AB4D05 /* OpenGLPart1 */ = {
 			isa = PBXGroup;
 			children = (
+				A54094BB1F15A2FA00AB4D05 /* dice.png */,
+				A54094BC1F15A2FA00AB4D05 /* picture-frame-mask.png */,
+				A54094BD1F15A2FA00AB4D05 /* picture-frame.png */,
+				A54094BE1F15A2FA00AB4D05 /* picture.png */,
 				A54094B71F1598D900AB4D05 /* dungeon_01.png */,
 				A54094B81F1598D900AB4D05 /* razewarelogo_128.png */,
 				A540947D1F13027E00AB4D05 /* AppDelegate.swift */,
@@ -145,10 +157,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54094BF1F15A2FA00AB4D05 /* dice.png in Resources */,
+				A54094C01F15A2FA00AB4D05 /* picture-frame-mask.png in Resources */,
 				A54094881F13027E00AB4D05 /* LaunchScreen.storyboard in Resources */,
 				A54094851F13027E00AB4D05 /* Assets.xcassets in Resources */,
 				A54094B01F130C1000AB4D05 /* SimpleVertexShader.glsl in Resources */,
 				A54094B21F130C4500AB4D05 /* SimpleFragmentShader.glsl in Resources */,
+				A54094C11F15A2FA00AB4D05 /* picture-frame.png in Resources */,
+				A54094C21F15A2FA00AB4D05 /* picture.png in Resources */,
 				A54094BA1F1598D900AB4D05 /* razewarelogo_128.png in Resources */,
 				A54094831F13027E00AB4D05 /* Main.storyboard in Resources */,
 				A54094B91F1598D900AB4D05 /* dungeon_01.png in Resources */,
