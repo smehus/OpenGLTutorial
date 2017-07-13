@@ -76,12 +76,7 @@
 		A540947C1F13027E00AB4D05 /* OpenGLPart1 */ = {
 			isa = PBXGroup;
 			children = (
-				A54094BB1F15A2FA00AB4D05 /* dice.png */,
-				A54094BC1F15A2FA00AB4D05 /* picture-frame-mask.png */,
-				A54094BD1F15A2FA00AB4D05 /* picture-frame.png */,
-				A54094BE1F15A2FA00AB4D05 /* picture.png */,
-				A54094B71F1598D900AB4D05 /* dungeon_01.png */,
-				A54094B81F1598D900AB4D05 /* razewarelogo_128.png */,
+				A54094C31F179D3000AB4D05 /* images */,
 				A540947D1F13027E00AB4D05 /* AppDelegate.swift */,
 				A540947F1F13027E00AB4D05 /* ViewController.swift */,
 				A54094811F13027E00AB4D05 /* Main.storyboard */,
@@ -95,6 +90,19 @@
 				A54094B51F14570800AB4D05 /* Square.swift */,
 			);
 			path = OpenGLPart1;
+			sourceTree = "<group>";
+		};
+		A54094C31F179D3000AB4D05 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A54094BB1F15A2FA00AB4D05 /* dice.png */,
+				A54094BC1F15A2FA00AB4D05 /* picture-frame-mask.png */,
+				A54094BD1F15A2FA00AB4D05 /* picture-frame.png */,
+				A54094BE1F15A2FA00AB4D05 /* picture.png */,
+				A54094B71F1598D900AB4D05 /* dungeon_01.png */,
+				A54094B81F1598D900AB4D05 /* razewarelogo_128.png */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

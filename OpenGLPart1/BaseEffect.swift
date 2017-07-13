@@ -24,6 +24,9 @@ class BaseEffect {
     fileprivate var lightDiffuseIntensityUniform: Int32!
     fileprivate var lightDirectionUniform: Int32!
     
+    fileprivate var matSpecularIntensityUniform: Int32!
+    fileprivate var shininessUniform: Int32!
+    
     init(vertexShader: String, fragmentShader: String) {
         self.compile(vertexShader: vertexShader, fragmentShader: fragmentShader)
     }
@@ -55,6 +58,9 @@ class BaseEffect {
         let lightDirecton = GLKVector3Normalize(GLKVector3Make(0, 1, -1))
         glUniform3f(lightDirectionUniform, lightDirecton.x, lightDirecton.y, lightDirecton.z)
         glUniform1f(lightDiffuseIntensityUniform, 0.7)
+        
+        glUniform1f(matSpecularIntensityUniform, 2.0)
+        glUniform1f(shininessUniform, 8.0)
     }
 }
 
@@ -125,6 +131,9 @@ extension BaseEffect {
         
         lightDiffuseIntensityUniform = glGetUniformLocation(programHandle, "u_Light.DiffuseIntensity")
         lightDirectionUniform = glGetUniformLocation(programHandle, "u_Light.Direction")
+        
+        matSpecularIntensityUniform = glGetUniformLocation(programHandle, "u_MatSpecularIntensity")
+        shininessUniform = glGetUniformLocation(programHandle, "u_Shininess")
         
         // Eror handling
         var linkStatus : GLint = 0
